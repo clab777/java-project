@@ -16,9 +16,12 @@ node('linux'){
         sh 'aws s3 cp ${WORKSPACE}/dist/rectangle-${BUILD_NUMBER}.jar s3://seis665-clab-a10/'
     }
     stage('Report'){
-        withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 'AWS user for Jenkins', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
+        withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 'AWSJenkinsUser', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
             // generate cloudformation report 
             sh 'aws cloudformation describe-stack-resources --region us-east-1 --stack-name jenkins'
         }
+    }
+    stage('Log'){
+         sh 'aws s3 cp ${WORKSPACE}/dist/rectangle-${BUILD_NUMBER}/console s3://seis665-clab-a10/
     }
 }
