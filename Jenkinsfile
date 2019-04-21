@@ -21,7 +21,4 @@ node('linux'){
             sh 'aws cloudformation describe-stack-resources --region us-east-1 --stack-name jenkins'
         }
     }
-    stage('Log'){
-        sh 'aws s3 cp ${WORKSPACE}/dist/rectangle-${BUILD_NUMBER}/console s3://seis665-clab-a10/'
-    }
 }
